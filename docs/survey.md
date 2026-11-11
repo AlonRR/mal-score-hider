@@ -1,6 +1,6 @@
 # Survey: where MyAnimeList shows a community score
 
-Measured 11 Nov 2026 in Chrome, signed in, by a read-only script that walks every visible text node
+Measured 11 Nov 2026 in Chrome (the home page, top manga and the Advanced Search form later that day), signed in, by a read-only script that walks every visible text node
 and lists the ones that look like a score, a rank or a count. One page per type. The add-on's
 selectors start from this; the live check re-runs the same walk with the add-on loaded.
 
@@ -22,6 +22,11 @@ selectors start from this; the live check re-runs the same walk with the add-on 
 | Studio / producer (`/anime/producer/<id>`) | Card score, users | `div.widget > div.stars`, `div.widget > div.users` | 172 cards. |
 | Search, anime (`/anime.php?q=`) | Score column | `td.borderClass.ac` with no class of its own | Found by the column header "Score". Title links carry hover popups. |
 | Search, all (`/search/all?q=`) | "Scored 9.11", "3,755,276 members" | **bare text lines** between `<br>` in `div.information div.fs10` | 20 results per section. |
+| Top manga (`/topmanga.php`) | as top anime | same table and columns | Header `Rank, Title, Score, Your Score, Status`, 5 cells, as on top anime. |
+| Home page (`/`), My List Updates | "Ranked #8441. Popularity 2464." | **one bare text line** in `.my_list_updates .info > p` | The owner's own recent updates. |
+| Home page (`/`), ranking widgets | "ONA, 0 eps, scored 9.03", "256,661 members" | `.ranking-unit .data span.info`, `span.members` | Lower-case "scored", inside a longer line. |
+| Genre and search pages, Advanced Search | **not a score** | `#advancedSearch table`: rows of a label and a `select`, one labelled "Score" | Hidden until opened. A table rule that takes any row with a "Score" cell for a header would hide its labels. |
+| Anime search with no query (`/anime.php`) | none | | |
 | Recommendations (`/recommendations.php`) | none | | |
 | Stacks (`/stacks`) | none | | |
 | Header search suggestions | none | | Type and year only. |

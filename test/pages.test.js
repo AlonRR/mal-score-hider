@@ -147,3 +147,27 @@ test('scanning twice wraps nothing twice', async () => {
   handle.scan();
   assert.equal(win.document.body.innerHTML, before);
 });
+
+test('the Advanced Search form, whose rows include "Score", is left alone', async () => {
+  const win = page(F.advancedSearch + F.searchTable, { url: 'https://myanimelist.net/anime/genre/1/Action' });
+  await start(win);
+  assert.equal(qa(win, '#advancedSearch [data-msh-unit]').length, 0, 'a filter label or control was marked');
+  assert.match(visibleText(win, q(win, '#advancedSearch')), /Type .*Score .*Status .*Producer/s);
+  assert.ok(!visibleText(win).includes('9.11'), 'the real score column is no longer hidden');
+});
+
+test('home page: rank, popularity, score and members in the list-updates box and ranking widgets', async () => {
+  const win = page(F.home, { url: 'https://myanimelist.net/' });
+  await start(win);
+  const text = visibleText(win);
+  for (const gone of ['#8441', '2464', '9.03', '256,661']) assert.ok(!text.includes(gone), `"${gone}" in ${text}`);
+  for (const kept of ['Ranked', 'Popularity', 'ONA, 0 eps, scored', 'members', 'Watching at 3 of 13']) {
+    assert.ok(text.includes(kept), `"${kept}" was hidden`);
+  }
+});
+
+test('a member count that belongs to no show (a club) is left alone', async () => {
+  const win = page(F.home, { url: 'https://myanimelist.net/' });
+  await start(win);
+  assert.match(visibleText(win, q(win, '.club')), /29 Members/);
+});

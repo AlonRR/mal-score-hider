@@ -129,3 +129,33 @@ export const searchAll = `
     <div class="pt8 fs10 lh14 fn-grey4"> <a href="https://myanimelist.net/topanime.php?type=tv">TV</a> (64 eps)<br> Scored 9.11<br> 3,755,276 members<br> </div>
   </div>
 </div>`;
+
+// The Advanced Search filter on genre and search pages: a two-column form whose rows are labels
+// and controls, one of them "Score". It is not a score column (seen live 11 Nov 2026).
+export const advancedSearch = `
+<div id="advancedSearch" class="anime-search-filter"><form id="advancedsearch"><table><tbody>
+<tr><td>Type</td><td><select name="type"><option value="0">Select type</option></select></td></tr>
+<tr><td>Score</td><td><select name="score"><option value="0">Select score</option></select></td></tr>
+<tr><td>Status</td><td><select name="status"><option value="0">Select status</option></select></td></tr>
+<tr><td>Producer</td><td><select name="p"><option value="0">Select producer</option></select></td></tr>
+</tbody></table></form></div>`;
+
+// The home page: the owner's "My List Updates" box, and a sidebar ranking widget (seen live 11 Nov 2026).
+export const home = `
+<div class="widget my_list_updates left"><div class="widget-content"><div class="item">
+  <div class="info">
+    <p><a class="fw-b" href="https://myanimelist.net/anime/1/Updated">Updated show</a> <a class="Lightbox_AddEdit button_edit"><span>CW</span></a></p>
+    <p>Watching at 3 of 13</p>
+    <p class="lightLink">1 hour ago</p>
+    <p>Ranked #8441. Popularity 2464.</p>
+  </div>
+</div></div></div>
+<div class="widget airing_ranking right"><ul><li class="ranking-unit">
+  <div class="data">
+    <a class="Lightbox_AddEdit button_add"><span>add</span></a>
+    <h3 class="h3_side"><a class="title" href="https://myanimelist.net/anime/2/Ranked">Ranked show</a></h3>
+    <span class="info pt8">ONA, 0 eps, scored 9.03</span><br>
+    <span class="members pb8">256,661 members</span>
+  </div>
+</li></ul></div>
+<div class="club"><div class="information"><a href="https://myanimelist.net/clubs.php?cid=1">A club</a> <span class="lightLink">29 Members</span></div></div>`;

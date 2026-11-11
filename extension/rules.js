@@ -78,9 +78,24 @@
     return pieces;
   }
 
-  const SCORED = /^\s*Scored\s+(\d+(?:\.\d+)?|N\/A)\s*$/;
-  const MEMBERS = /^\s*([\d,]+)\s+members\s*$/i;
+  const PHRASE_BOXES = 'div.information, .ranking-unit .data, .my_list_updates .info';
+  const PHRASES = [
+    [/\bscored\s+(\d+(?:\.\d+)?|N\/A)/i, 'score'],
+    [/\bRanked\s+(#\d+)/, 'rank'],
+    [/\bPopularity\s+(#?\d+)/, 'popularity'],
+    [/(\d[\d,]*)\s+members\b/i, 'members'],
+  ];
+  // The phrase that starts earliest in the text, so the text before it holds none.
+  function firstPhrase(text) {
+    let best = null;
+    for (const [re, kind] of PHRASES) {
+      const m = re.exec(text);
+      if (m && (!best || m.index < best.index)) best = { re, kind, index: m.index };
+    }
+    return best;
+  }
   const COLUMNS = { Score: 'score', Members: 'members' };
+  const FORM = 'select, input, textarea, button';
 
   MSH.rules = [
     {
@@ -124,7 +139,14 @@
         const out = [];
         for (const table of doc.querySelectorAll('table')) {
           const rows = [...table.rows];
-          const h = rows.findIndex((r) => [...r.cells].some((c) => c.textContent.trim() in COLUMNS));
+          // A header row: at least three cells, no form controls, one of them headed "Score" or
+          // "Members". The Advanced Search form has a "Score" row too, of a label and a select.
+          const h = rows.findIndex(
+            (r) =>
+              r.cells.length >= 3 &&
+              !r.querySelector(FORM) &&
+              [...r.cells].some((c) => c.textContent.trim() in COLUMNS),
+          );
           if (h < 0) continue;
           const width = rows[h].cells.length;
           const cols = [...rows[h].cells]
@@ -134,6 +156,7 @@
             if (row.cells.length !== width) continue;
             for (const [kind, i] of cols) {
               const cell = row.cells[i];
+              if (cell.querySelector(FORM)) continue;
               const pieces = [...cell.childNodes].filter((n) => n.nodeType === 1 || hasText(n));
               if (pieces.length) out.push({ kind, key: cell, showId: () => MSH.showIdNear(row, 1), pieces });
             }
@@ -143,18 +166,25 @@
       },
     },
     {
-      // Lines like "Scored 9.11" and "3,755,276 members" (search, all categories; top anime).
-      name: 'information lines',
+      // Numbers inside running text: "Scored 9.11" and "3,755,276 members" (search, all
+      // categories; top anime), "ONA, 0 eps, scored 9.03" and "Ranked #8441. Popularity 2464."
+      // (home page). Only the number is hidden, and only on a line that belongs to a show.
+      name: 'phrases',
       find(doc) {
         const out = [];
-        for (const info of doc.querySelectorAll('div.information')) {
-          for (const n of textNodes(info)) {
+        for (const box of doc.querySelectorAll(PHRASE_BOXES)) {
+          for (let n of textNodes(box)) {
             if (n.parentElement.closest('[data-msh-unit]')) continue;
-            const [re, kind] = SCORED.test(n.data) ? [SCORED, 'score'] : MEMBERS.test(n.data) ? [MEMBERS, 'members'] : [];
-            if (!re) continue;
-            const showId = MSH.showIdNear(n); // before the split: it is computed once per new line
-            const num = isolate(n, re);
-            if (num) out.push({ kind, showId, pieces: [num] });
+            let showId;
+            while (n) {
+              const hit = firstPhrase(n.data);
+              if (!hit) break;
+              showId ??= MSH.showIdNear(n);
+              if (!showId) break;
+              const num = isolate(n, hit.re);
+              out.push({ kind: hit.kind, showId, pieces: [num] });
+              n = num.nextSibling?.nodeType === 3 ? num.nextSibling : null;
+            }
           }
         }
         return out;
