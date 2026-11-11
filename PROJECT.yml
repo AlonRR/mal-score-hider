@@ -5,6 +5,6 @@ projects:
   - name:     MAL score hider
     kind:     build
     state:    active
-    next:     "started 11 Nov 2026 from dub-queue's D83 (b); see docs/brief.md"
+    next:     "owner to load extension/ unpacked (T9); then the live check on each page type"
     trackers: [README.md, docs/brief.md]
     review:   2026-11-11
