@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MAL score hider settings</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1d1d1f;
+      --muted: #5f6368;
+      --line: #d9d9de;
+      --accent: #2e51a2;
+      color-scheme: light dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #1f1f23; --fg: #ececf0; --muted: #a9a9b3; --line: #3a3a42; --accent: #8fa8e8; }
+    }
+    body { background: var(--bg); color: var(--fg); font: 14px/1.45 system-ui, sans-serif; margin: 0; padding: 16px; min-width: 320px; max-width: 520px; }
+    h1 { font-size: 16px; margin: 0 0 4px; }
+    p.lede { color: var(--muted); margin: 0 0 12px; }
+    fieldset { border: 0; border-top: 1px solid var(--line); margin: 0; padding: 12px 0; }
+    legend, .label { font-weight: 600; padding: 0; }
+    label { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; cursor: pointer; }
+    input { accent-color: var(--accent); margin-top: 3px; }
+    .row { border-top: 1px solid var(--line); padding: 8px 0; }
+    #status { color: var(--muted); min-height: 1.45em; margin: 8px 0 0; }
+    button { font: inherit; padding: 4px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>MAL score hider</h1>
+  <p class="lede">Community scores and ranks are always hidden until you click one. These choose the rest.</p>
+  <form id="settings"></form>
+  <div class="row" id="remembered" hidden>
+    <span id="remembered-count"></span>
+    <button type="button" id="forget">Forget them</button>
+  </div>
+  <p id="status" role="status"></p>
+  <script src="settings.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

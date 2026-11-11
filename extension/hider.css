@@ -1,0 +1,58 @@
+/* Injected before the page is built (document_start). */
+
+/* Until the content script has read its settings, the places that hold a score are hidden
+   outright, so nothing shows for a moment while it starts. */
+html:not([data-msh-ready]) :is(
+  .stats-block .score-label,
+  .stats-block .numbers strong,
+  .leftside .js-statistics-info,
+  .leftside .spaceit_pad,
+  .hoverinfo,
+  .scormem-item,
+  .seasonal-anime .widget,
+  td.score,
+  #content td.borderClass.ac,
+  div.information,
+  table.score-stats,
+  .review-element .rating
+) {
+  visibility: hidden !important;
+}
+html:not([data-msh-ready]) .stats-block div.fl-l.score::after {
+  visibility: hidden !important;
+}
+
+/* The rest of a hidden unit, such as "(scored by N users)", takes no space. */
+[data-msh-h]:not([data-msh-anchor]) {
+  display: none !important;
+}
+
+/* The first piece keeps its box, so the layout does not move, and a placeholder is drawn over it. */
+[data-msh-h][data-msh-anchor] {
+  visibility: hidden !important;
+  position: relative !important;
+  cursor: pointer !important;
+}
+[data-msh-h][data-msh-anchor]::before {
+  content: attr(data-msh-ph);
+  visibility: visible;
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+  overflow: visible;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+/* The score box's "N users", which MAL draws as ::after. */
+[data-msh-ha]::after {
+  visibility: hidden !important;
+}
+
+button[data-msh-block] {
+  font: inherit;
+  cursor: pointer;
+  padding: 4px 10px;
+  margin: 4px 0;
+}

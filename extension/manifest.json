@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "MAL score hider",
+  "version": "0.1.0",
+  "description": "Hides MyAnimeList's community scores, ranks and counts until you click one, so your rating is your own.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["https://myanimelist.net/*"],
+      "css": ["hider.css"],
+      "js": ["settings.js", "rules.js", "core.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "options_ui": { "page": "options.html", "open_in_tab": false },
+  "action": { "default_title": "MAL score hider settings", "default_popup": "options.html" }
+}
