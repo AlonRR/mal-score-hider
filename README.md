@@ -7,10 +7,12 @@ show on its own merits before seeing what others thought. A hidden score shows a
 ## What it hides
 
 On anime and manga entry pages, the score box, the sidebar's Score, "scored by N users" and
-Ranked lines, the Popularity rank and the member count. The same goes for the popup that opens
+Ranked lines, the Popularity rank, the member count and the Favorites count. The same goes for the popup that opens
 when you hover a title, for the score and member columns of search results, top anime and genre
 list views, for seasonal, genre, studio and producer tiles, and for the "Scored 9.11" lines of
-the all-categories search. On a show's Stats tab, the score distribution sits behind a button.
+the all-categories search. On a show's Stats tab, the score distribution sits behind a button;
+the tab's Summary Stats counts and its list of members' recent updates stay visible, since that
+tab is opened on purpose.
 
 Your own score is never hidden. Top Anime's rank column stays, since the order of that page gives
 the ranking away anyway.
@@ -21,7 +23,7 @@ Open them from the extension's toolbar button, or from Extension options on `chr
 
 | Setting | Default |
 |---|---|
-| Hide the Popularity rank and member counts | on |
+| Hide the Popularity rank, member counts and Favorites count | on |
 | A click shows that score only, or every score on the page | that score only |
 | Shows you have scored: show the community score where the page shows your own score, keep it hidden, or remember each show whose score you click | show it where the page shows your score |
 | Hide the score distribution on the Stats tab | on |

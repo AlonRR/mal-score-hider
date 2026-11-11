@@ -2,7 +2,7 @@
 // A rule finds what to hide and says what it is; core.js does the hiding and the reveal.
 //
 // A rule's find(doc) returns units: { kind, pieces, key?, showId?, mode? }
-//   kind     score | rank | popularity | members | distribution | review
+//   kind     score | rank | popularity | members | favorites | distribution | review
 //   pieces   nodes to hide; the first element or text node holds the placeholder. A text node is
 //            wrapped in a span of ours. { node, pseudo: 'after' } hides only that element's ::after.
 //   key      an element standing for the unit, so pieces that arrive later join it
@@ -66,7 +66,13 @@
   }
 
   // The nodes after a "Score:"-style label, up to the next label or line break.
-  const LABELS = { 'Score:': 'score', 'Ranked:': 'rank', 'Popularity:': 'popularity', 'Members:': 'members' };
+  const LABELS = {
+    'Score:': 'score',
+    'Ranked:': 'rank',
+    'Popularity:': 'popularity',
+    'Members:': 'members',
+    'Favorites:': 'favorites', // D9 (11 Nov 2026)
+  };
   const SKIP = 'meta, link, script, style, .statistics-info';
   function afterLabel(label) {
     const pieces = [];

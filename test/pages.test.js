@@ -27,11 +27,19 @@ test('entry page: the score box user count, drawn by ::after, is hidden with it'
   assert.ok(q(win, 'div.fl-l.score').hasAttribute('data-msh-ha'));
 });
 
-test('entry page: the owner’s own score control and the Favorites line are left alone', async () => {
+test('entry page: the owner’s own score control is left alone', async () => {
   const win = page(F.entry());
   await start(win);
   assert.ok(!isHidden(q(win, '#myinfo_score')));
+});
+
+test('entry page: the Favorites count is hidden with the other counts (D9)', async () => {
+  const win = page(F.entry());
   assert.match(visibleText(win), /Favorites: 230,001/);
+  await start(win);
+  const text = visibleText(win);
+  assert.ok(!text.includes('230,001'), `Favorites count still visible in: ${text}`);
+  assert.match(text, /Favorites:/);
 });
 
 test('entry page: a review’s rating stays visible by default (D7)', async () => {

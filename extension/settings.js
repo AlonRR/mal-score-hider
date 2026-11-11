@@ -9,10 +9,10 @@
   MSH.SETTINGS = [
     {
       key: 'hideCounts',
-      decision: 'D3',
+      decision: 'D3', // the Favorites count joined it by D9 (11 Nov 2026)
       type: 'boolean',
       default: true,
-      label: 'Hide the Popularity rank and member counts',
+      label: 'Hide the Popularity rank, member counts and Favorites count',
     },
     {
       key: 'revealScope',

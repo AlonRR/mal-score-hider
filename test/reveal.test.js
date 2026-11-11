@@ -112,12 +112,13 @@ test('with "remember", a revealed show stays revealed on the next page load (D5 
   assert.ok(!isHidden(second), 'show 5114 was revealed before and should stay so');
 });
 
-test('settings: showing popularity and members (D3 off) leaves them visible', async () => {
+test('settings: showing popularity, members and favorites (D3 off) leaves them visible', async () => {
   const win = page(F.entry());
   await start(win, fakeStore({ hideCounts: false }));
   const text = visibleText(win);
   assert.match(text, /#3/);
   assert.match(text, /3,754,732/);
+  assert.match(text, /230,001/);
   assert.ok(!text.includes('9.11'));
 });
 

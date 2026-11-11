@@ -12,8 +12,8 @@ selectors start from this; the live check re-runs the same walk with the add-on 
 | Entry page, header | Ranked, Popularity, Members | `span.numbers.ranked > strong`, `span.numbers.popularity > strong`, `span.numbers.members > strong` | Each number has its own element. |
 | Entry page, sidebar Statistics | Score | `.js-statistics-info span.score-label[itemprop=ratingValue]` | "(scored by 2,353,020 users)" is a **bare text node** beside it, with a hidden `[itemprop=ratingCount]` span. |
 | Entry page, sidebar Statistics | Ranked | second `.js-statistics-info` | "#2" is a **bare text node** after `span.dark_text` "Ranked:". |
-| Entry page, sidebar | Popularity, Members | `div.spaceit_pad` | Bare text after `span.dark_text`. |
-| Entry page, stats tab (`…/stats`) | Score distribution | 10 rows, "(1147155 votes)" in `span > small` | The header score box is not on this tab; the sidebar is. |
+| Entry page, sidebar | Popularity, Members, Favorites | `div.spaceit_pad` | Bare text after `span.dark_text`. Favorites is hidden with the counts (D9, 11 Nov 2026). |
+| Entry page, stats tab (`…/stats`) | Score distribution | 10 rows, "(1147155 votes)" in `span > small` | The header score box is not on this tab; the sidebar is. The Summary Stats counts and the "Recently Updated By" list (members' own scores under "All Members") stay visible: the tab is opened on purpose (D10 (a), 11 Nov 2026). |
 | Entry page, reviews | Reviewer's rating | `div.rating.js-hidden > span.num` | Hidden by MAL until a review is expanded. One reviewer's score, not the community's. |
 | Hover popup on a title link | Score, Ranked, Popularity, Members | `div.hoverinfo`, filled by MAL on hover | Bare text after `span.dark_text`. Appears on any page with `a.hoverinfo_trigger` (top anime, search). Loaded after the page. |
 | Top anime (`/topanime.php`) | Score column | `td.score span.score-label` | **The "Your Score" column uses `span.score-label` too** (`td.your-score`), so a blanket `.score-label` rule hides the owner's own score. Rank column: `td.rank span.top-anime-rank-text`. Members: `div.information` in the title cell. |

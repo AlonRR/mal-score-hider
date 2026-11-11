@@ -15,13 +15,14 @@
   const BLOCK = 'data-msh-block';
   const READY = 'data-msh-ready';
 
-  const PLACEHOLDER = { score: '?.??', rank: '#?', popularity: '#?', members: '?', review: '?' };
+  const PLACEHOLDER = { score: '?.??', rank: '#?', popularity: '#?', members: '?', favorites: '?', review: '?' };
   const BLOCK_LABEL = { distribution: 'Show the score distribution' };
 
   MSH.kindHidden = (kind, s) => {
     switch (kind) {
       case 'popularity':
       case 'members':
+      case 'favorites':
         return s.hideCounts;
       case 'distribution':
         return s.hideDistribution;
