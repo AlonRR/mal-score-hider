@@ -67,12 +67,13 @@
           id: String(++seq),
           kind: found.kind,
           mode: found.mode || 'inline',
-          showId: found.showId || null,
+          showId: (typeof found.showId === 'function' ? found.showId() : found.showId) || null,
           revealed: state.pageRevealed,
           els: [],
           afters: [],
           anchor: null,
           block: null,
+          key: found.key || null,
         };
         units.set(unit.id, unit);
         found.key?.setAttribute(KEY, unit.id);
@@ -99,6 +100,16 @@
           el.setAttribute(PH, PLACEHOLDER[unit.kind] || '?');
         }
       }
+    }
+
+    // A unit whose elements have all left the page. Its markers go too, so that if MAL puts an
+    // element back (a re-sort, a popup shown again) the next scan treats it as new.
+    function forget(id, u) {
+      units.delete(id);
+      for (const el of u.els) for (const a of [UNIT, HIDDEN, ANCHOR, PH]) el.removeAttribute(a);
+      for (const el of u.afters) for (const a of [AFTER_UNIT, AFTER]) el.removeAttribute(a);
+      u.key?.removeAttribute(KEY);
+      u.block?.remove();
     }
 
     function hides(u) {
@@ -132,7 +143,7 @@
         }
         for (const f of found) add(f);
       }
-      for (const [id, u] of units) if (!u.els.some((el) => el.isConnected)) units.delete(id);
+      for (const [id, u] of units) if (!u.els.some((el) => el.isConnected)) forget(id, u);
       state.rated = MSH.ratedShows(doc);
       apply();
       observer.takeRecords(); // the mutations just made are ours

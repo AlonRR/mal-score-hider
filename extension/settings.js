@@ -63,10 +63,11 @@
     return Object.fromEntries(MSH.SETTINGS.map((s) => [s.key, valid(s, src[s.key]) ? src[s.key] : s.default]));
   };
 
-  // Settings live in chrome.storage.sync; the shows remembered under D5 (c) in chrome.storage.local.
+  // Settings and the shows remembered under D5 (c) live in chrome.storage.local. Not sync: that
+  // would send them through the owner's Chrome account, and nothing here needs to leave the machine.
   MSH.chromeStore = (chrome) => ({
     async load() {
-      const [s, l] = await Promise.all([chrome.storage.sync.get('settings'), chrome.storage.local.get('revealed')]);
+      const [s, l] = await Promise.all([chrome.storage.local.get('settings'), chrome.storage.local.get('revealed')]);
       return { settings: s.settings || {}, revealed: Object.keys(l.revealed || {}) };
     },
     async remember(id) {
@@ -79,11 +80,11 @@
       await chrome.storage.local.remove('revealed');
     },
     async save(settings) {
-      await chrome.storage.sync.set({ settings: MSH.normalize(settings) });
+      await chrome.storage.local.set({ settings: MSH.normalize(settings) });
     },
     onSettings(cb) {
       chrome.storage.onChanged.addListener((changes, area) => {
-        if (area === 'sync' && changes.settings) cb(changes.settings.newValue || {});
+        if (area === 'local' && changes.settings) cb(changes.settings.newValue || {});
       });
     },
   });

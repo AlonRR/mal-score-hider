@@ -32,3 +32,23 @@ test('stored values that are missing or not allowed fall back to the default', (
   assert.deepEqual(plain(got), { ...plain(m.defaults()), revealScope: 'page' });
   assert.deepEqual(plain(m.normalize(undefined)), plain(m.defaults()));
 });
+
+test('settings and remembered shows are kept in chrome.storage.local, never sync', async () => {
+  const area = () => {
+    const data = {};
+    return {
+      data,
+      get: async (k) => (k in data ? { [k]: data[k] } : {}),
+      set: async (o) => Object.assign(data, o),
+      remove: async (k) => delete data[k],
+    };
+  };
+  const chrome = { storage: { local: area(), onChanged: { addListener() {} } } };
+  Object.defineProperty(chrome.storage, 'sync', { get: () => assert.fail('storage.sync was used') });
+  const store = MSH().chromeStore(chrome);
+  await store.save({ hideCounts: false });
+  await store.remember('anime:5114');
+  const got = await store.load();
+  assert.equal(got.settings.hideCounts, false);
+  assert.deepEqual([...got.revealed], ['anime:5114']);
+});

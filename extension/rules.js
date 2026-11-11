@@ -6,7 +6,8 @@
 //   pieces   nodes to hide; the first element or text node holds the placeholder. A text node is
 //            wrapped in a span of ours. { node, pseudo: 'after' } hides only that element's ::after.
 //   key      an element standing for the unit, so pieces that arrive later join it
-//   showId   'anime:5114', for showing the score of a show you have scored
+//   showId   'anime:5114', or a function returning it (called once, when the unit is made),
+//            for showing the score of a show you have scored
 //   mode     'block' hides the pieces entirely behind a button, instead of a placeholder in place
 (function (g) {
   'use strict';
@@ -88,7 +89,7 @@
         [...doc.querySelectorAll('.stats-block div.fl-l.score')].map((box) => ({
           kind: 'score',
           key: box,
-          showId: MSH.pageShowId(doc),
+          showId: () => MSH.pageShowId(doc),
           pieces: [...box.querySelectorAll('.score-label'), { node: box, pseudo: 'after' }],
         })),
     },
@@ -98,7 +99,7 @@
         [['ranked', 'rank'], ['popularity', 'popularity'], ['members', 'members']].flatMap(([cls, kind]) =>
           [...doc.querySelectorAll(`.stats-block span.numbers.${cls} > strong`)].map((el) => ({
             kind,
-            showId: MSH.pageShowId(doc),
+            showId: () => MSH.pageShowId(doc),
             pieces: [el],
           })),
         ),
@@ -111,7 +112,8 @@
           const kind = LABELS[label.textContent.trim()];
           if (!kind) return [];
           const popup = label.closest('.hoverinfo');
-          const showId = popup ? MSH.showIdNear(popup.querySelector('a.hovertitle') || popup, 1) : MSH.pageShowId(doc);
+          const showId = () =>
+            popup ? MSH.showIdNear(popup.querySelector('a.hovertitle') || popup, 1) : MSH.pageShowId(doc);
           return [{ kind, key: label, showId, pieces: afterLabel(label) }];
         }),
     },
@@ -133,7 +135,7 @@
             for (const [kind, i] of cols) {
               const cell = row.cells[i];
               const pieces = [...cell.childNodes].filter((n) => n.nodeType === 1 || hasText(n));
-              if (pieces.length) out.push({ kind, key: cell, showId: MSH.showIdNear(row, 1), pieces });
+              if (pieces.length) out.push({ kind, key: cell, showId: () => MSH.showIdNear(row, 1), pieces });
             }
           }
         }
@@ -150,7 +152,7 @@
             if (n.parentElement.closest('[data-msh-unit]')) continue;
             const [re, kind] = SCORED.test(n.data) ? [SCORED, 'score'] : MEMBERS.test(n.data) ? [MEMBERS, 'members'] : [];
             if (!re) continue;
-            const showId = MSH.showIdNear(n);
+            const showId = MSH.showIdNear(n); // before the split: it is computed once per new line
             const num = isolate(n, re);
             if (num) out.push({ kind, showId, pieces: [num] });
           }
@@ -168,7 +170,7 @@
           ['.seasonal-anime .widget > .stars', 'score'],
           ['.seasonal-anime .widget > .users', 'members'],
         ].flatMap(([sel, kind]) =>
-          [...doc.querySelectorAll(sel)].map((el) => ({ kind, showId: MSH.showIdNear(el), pieces: [el] })),
+          [...doc.querySelectorAll(sel)].map((el) => ({ kind, showId: () => MSH.showIdNear(el), pieces: [el] })),
         ),
     },
     {
@@ -177,7 +179,7 @@
         [...doc.querySelectorAll('table.score-stats')].map((t) => ({
           kind: 'distribution',
           mode: 'block',
-          showId: MSH.pageShowId(doc),
+          showId: () => MSH.pageShowId(doc),
           pieces: [t],
         })),
     },
@@ -186,7 +188,7 @@
       find: (doc) =>
         [...doc.querySelectorAll('.review-element .rating .num')].map((el) => ({
           kind: 'review',
-          showId: MSH.pageShowId(doc) || MSH.showIdNear(el),
+          showId: () => MSH.pageShowId(doc) || MSH.showIdNear(el),
           pieces: [el],
         })),
     },

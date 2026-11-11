@@ -168,3 +168,20 @@ test('if the settings cannot be read, the defaults apply and the page still beco
   assert.ok(win.document.documentElement.hasAttribute('data-msh-ready'));
   assert.ok(isHidden(headerScore(win)));
 });
+
+test('an element MAL takes out and puts back (a re-sort) can still be clicked', async () => {
+  const win = page(F.seasonal, { url: 'https://myanimelist.net/anime/season' });
+  const handle = await start(win);
+  const list = q(win, '.seasonal-anime-list');
+  const [first, second] = qa(win, '.seasonal-anime');
+  first.remove();
+  await tick();
+  handle.scan();
+  list.append(first); // the re-sort puts it back last
+  await tick();
+  const score = first.querySelector('.scormem-item.score');
+  assert.ok(isHidden(score), 'the re-attached score is visible');
+  click(win, score);
+  assert.ok(!isHidden(score), 'the re-attached score cannot be revealed');
+  assert.ok(isHidden(second.querySelector('.scormem-item.score')));
+});

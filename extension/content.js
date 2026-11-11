@@ -5,6 +5,6 @@
   if (!MSH || MSH.running) return;
   MSH.running = true;
   const chrome = g.chrome;
-  const store = chrome?.storage?.sync ? MSH.chromeStore(chrome) : MSH.memoryStore();
+  const store = chrome?.storage?.local ? MSH.chromeStore(chrome) : MSH.memoryStore();
   MSH.start(document, store);
 })(globalThis);
