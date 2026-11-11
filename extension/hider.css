@@ -13,6 +13,8 @@ html:not([data-msh-ready]) :is(
   td.score,
   #content td.borderClass.ac,
   div.information,
+  .ranking-unit .data,
+  .my_list_updates .info,
   table.score-stats,
   .review-element .rating
 ) {
