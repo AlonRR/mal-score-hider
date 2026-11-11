@@ -1,0 +1,10 @@
+# The projects this repository holds. The format is SCHEMA.md in project-ledger.
+# schema version: set by `ledger migrate` or `ledger init` -- do not edit by hand
+schema: 1
+projects:
+  - name:     MAL score hider
+    kind:     build
+    state:    active
+    next:     "started 11 Nov 2026 from dub-queue's D83 (b); see docs/brief.md"
+    trackers: [README.md, docs/brief.md]
+    review:   2026-11-11
