@@ -53,6 +53,7 @@
   const own = [...document.querySelectorAll('tr.ranking-list td.your-score .score-label, select#myinfo_score')];
   return JSON.stringify({
     page: location.pathname,
+    version: document.documentElement.getAttribute('data-msh-version'),
     ready: document.documentElement.hasAttribute('data-msh-ready'),
     positives: POSITIVES.reduce((n, s) => n + document.querySelectorAll(s).length, 0),
     counts: Object.fromEntries(Object.entries(visible).map(([k, v]) => [k, v.length])),

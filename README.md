@@ -31,10 +31,15 @@ Open them from the extension's toolbar button, or from Extension options on `chr
 
 ## Install
 
-1. Open `chrome://extensions` and turn on **Developer mode** (top right).
+1. Open `edge://extensions` in Edge, or `chrome://extensions` in Chrome, and turn on
+   **Developer mode**.
 2. Click **Load unpacked** and choose this repository's `extension` folder.
-3. Open any MyAnimeList page. After a code change, click the extension's reload arrow on
-   `chrome://extensions`, then reload the page.
+3. Open any MyAnimeList page. After a code change, click the extension's **Reload** on the
+   extensions page, then reload the MyAnimeList page.
+
+Each build has its own version number, shown on the extensions page and at the bottom of the
+settings. If it doesn't match the newest entry under [Versions](#versions), the browser still holds
+an older build: press Reload on the extensions page.
 
 It asks for two things: access to `https://myanimelist.net/*` and `storage`, which holds its
 settings. It makes no network requests.
@@ -46,5 +51,14 @@ pages in `test/fixtures.js`. Where each score sits on the real site is recorded 
 `docs/survey.md`. `tools/visible-scores.js`, run in a MyAnimeList page, lists anything visible
 that looks like a score, rank or count. `tools/page-bundle.mjs` builds the content scripts into one
 script that can be tried in a page before the extension is installed.
+
+Every change under `extension/` raises `version` in `extension/manifest.json` and adds a line
+below. `npm run check-version` fails when `extension/` differs from `origin/main` and the version
+was not raised.
+
+## Versions
+
+- **0.2.0**: the version is shown on the settings page and marked on each MyAnimeList page.
+- **0.1.0**: the first build, the Favorites count included.
 
 _Parts of this repository were drafted with the help of an LLM agent; reviewed and verified locally._

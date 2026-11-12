@@ -8,4 +8,9 @@
   names each one's decision.
 - A hidden score is revealed only by a deliberate click on that score, never by hover or mouse
   movement: an accidental reveal defeats the point (the owner, dub-queue's D83 (b), 11 Nov 2026).
+- Every change under `extension/` raises the manifest `version` and adds a line to the README's
+  Versions list, so the owner can tell which build is loaded (the owner, 12 Nov 2026). Run
+  `npm run check-version` before each commit; it fails if `extension/` changed and the version
+  did not.
+- The owner runs the add-on in Edge: its extensions page is `edge://extensions` (12 Nov 2026).
 - Prior art without a licence (the Greasy Fork script "Hide Entry Score") may be read for ideas, never copied.

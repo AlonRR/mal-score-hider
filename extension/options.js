@@ -45,6 +45,7 @@
   }
 
   async function init() {
+    document.getElementById('version').textContent = `Version ${chrome.runtime.getManifest().version}`;
     const { settings } = await store.load();
     const current = MSH.normalize(settings);
     form.replaceChildren(...MSH.SETTINGS.map((s) => control(s, current[s.key])));
