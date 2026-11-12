@@ -34,11 +34,13 @@ test('a title MyAnimeList set itself is kept, hidden or shown', async () => {
   assert.equal(headerScore(win).getAttribute('title'), 'theirs');
 });
 
-test('the bar draws no text: no "?.??" placeholder, no attribute read into content', () => {
+test('the bar says "Spoiler", the same word on every bar (the owner, 12 Nov 2026)', () => {
   const css = readExt('hider.css');
   const rule = css.match(/\[data-msh-h\]\[data-msh-anchor\]::before\s*\{([^}]*)\}/);
   assert.ok(rule, 'the bar rule is missing');
-  assert.match(rule[1], /content:\s*(''|"")/);
+  assert.match(rule[1], /content:\s*('Spoiler'|"Spoiler")/);
+  // A word too long for a narrow bar is cut at its end ("Spoi"), never centred into "poile".
+  assert.match(rule[1], /justify-content:\s*safe center/);
   assert.doesNotMatch(css, /attr\(data-msh-ph\)/);
 });
 

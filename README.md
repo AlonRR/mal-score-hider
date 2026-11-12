@@ -2,9 +2,10 @@
 
 A Chrome and Edge extension that hides MyAnimeList's community scores, ranks and counts, so you can
 rate a show on its own merits before seeing what others thought. A hidden score is a spoiler bar,
-as chat apps hide spoilers: a solid bar in the text's colour, the same width for every number, so
-it gives away no digits. Click it and that score comes back, with a dotted underline to mark it was
-hidden. Hovering only lightens the bar and says a click shows it; it never reveals.
+as chat apps hide spoilers: a tinted bar in the text's colour with "Spoiler" written on it, the
+same width for every number, so it gives away no digits. Click it and that score comes back, with
+a dotted underline to mark it was hidden. Hovering only deepens the bar and says a click shows it;
+it never reveals.
 
 ## What it hides
 
@@ -60,6 +61,8 @@ was not raised.
 
 ## Versions
 
+- **0.3.1**: the bar says "Spoiler"; inline bars are wide enough for the word in MAL's smallest
+  text, and the bar is a lighter tint so the word reads.
 - **0.3.0**: hidden numbers are spoiler bars instead of `?.??` and `#?`, one width for every
   number; a tooltip says a click shows it; a clicked one keeps a dotted underline.
 - **0.2.1**: fixes 0.1.0 and 0.2.0 hiding nothing in current Chrome and Edge, whose elements

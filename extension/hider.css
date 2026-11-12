@@ -38,24 +38,40 @@ html:not([data-msh-ready]) .stats-block div.fl-l.score::after {
   position: relative !important;
   cursor: pointer !important;
 }
+/* The bar is the text colour mixed 30% into transparent, and the word "Spoiler" on it is the text
+   colour itself: about 6:1 for MAL's body text on its dark theme, 7:1 on its light one, and 3.4:1
+   for the grey small text of a seasonal tile (worked from sRGB luminance). A bar too narrow for
+   the word shows its start ("Spoi"); "safe center" keeps it from being centred into "poile". */
 [data-msh-h][data-msh-anchor]::before {
-  content: '';
+  content: 'Spoiler';
   visibility: visible;
   position: absolute;
   inset: 0.1em 0.1em;
   min-width: 1.8em;
+  display: flex;
+  align-items: center;
+  justify-content: safe center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: clamp(10px, 0.7em, 13px);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-decoration: none;
+  color: currentColor;
   border-radius: 0.25em;
-  background-color: currentColor;
-  opacity: 0.38;
+  background-color: color-mix(in srgb, currentColor 30%, transparent);
   cursor: pointer;
-  transition: opacity 0.12s ease-out;
+  transition: background-color 0.12s ease-out;
 }
 /* An inline number (a rank, a count, a score in running text) gets one width whatever its
    digits, or the bar's length would tell #2 from #4,000. A block, such as a tile's score line,
    is as wide as its box, which says nothing about the number. */
 :is(span, strong, b)[data-msh-h][data-msh-anchor] {
   display: inline-block !important;
-  width: 3em !important;
+  /* Room for "Spoiler" at the 10px the word never goes below, in MAL's smallest text too. */
+  width: max(3.6em, 42px) !important;
   overflow: hidden !important;
   white-space: nowrap !important;
   vertical-align: bottom !important;
@@ -64,8 +80,9 @@ html:not([data-msh-ready]) .stats-block div.fl-l.score::after {
   inset: 0.1em 0;
   min-width: 0;
 }
+/* Hover deepens the bar a little; any further and the word on it would stop being legible. */
 [data-msh-h][data-msh-anchor]:hover::before {
-  opacity: 0.6;
+  background-color: color-mix(in srgb, currentColor 40%, transparent);
 }
 @media (prefers-reduced-motion: reduce) {
   [data-msh-h][data-msh-anchor]::before {
@@ -77,7 +94,7 @@ html:not([data-msh-ready]) .stats-block div.fl-l.score::after {
   [data-msh-h][data-msh-anchor]::before {
     forced-color-adjust: none;
     background-color: CanvasText;
-    opacity: 1;
+    color: Canvas;
   }
 }
 
