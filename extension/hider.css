@@ -29,22 +29,63 @@ html:not([data-msh-ready]) .stats-block div.fl-l.score::after {
   display: none !important;
 }
 
-/* The first piece keeps its box, so the layout does not move, and a placeholder is drawn over it. */
+/* The first piece keeps its box, so the layout does not move, and a spoiler bar is drawn over it,
+   the way chat apps hide a spoiler: a solid bar in the text's own colour, so it reads on MAL's
+   light and dark themes alike. Not a blur, which can leave a number guessable. The number itself
+   stays visibility:hidden, so it can't be selected, copied or found with Ctrl+F. */
 [data-msh-h][data-msh-anchor] {
   visibility: hidden !important;
   position: relative !important;
   cursor: pointer !important;
 }
 [data-msh-h][data-msh-anchor]::before {
-  content: attr(data-msh-ph);
+  content: '';
   visibility: visible;
   position: absolute;
-  inset: 0;
-  white-space: nowrap;
-  overflow: visible;
-  text-decoration: underline dotted;
-  text-underline-offset: 0.15em;
+  inset: 0.1em 0.1em;
+  min-width: 1.8em;
+  border-radius: 0.25em;
+  background-color: currentColor;
+  opacity: 0.38;
   cursor: pointer;
+  transition: opacity 0.12s ease-out;
+}
+/* An inline number (a rank, a count, a score in running text) gets one width whatever its
+   digits, or the bar's length would tell #2 from #4,000. A block, such as a tile's score line,
+   is as wide as its box, which says nothing about the number. */
+:is(span, strong, b)[data-msh-h][data-msh-anchor] {
+  display: inline-block !important;
+  width: 3em !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  vertical-align: bottom !important;
+}
+:is(span, strong, b)[data-msh-h][data-msh-anchor]::before {
+  inset: 0.1em 0;
+  min-width: 0;
+}
+[data-msh-h][data-msh-anchor]:hover::before {
+  opacity: 0.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-msh-h][data-msh-anchor]::before {
+    transition: none;
+  }
+}
+/* High-contrast mode replaces background colours, which would leave nothing drawn. */
+@media (forced-colors: active) {
+  [data-msh-h][data-msh-anchor]::before {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+    opacity: 1;
+  }
+}
+
+/* A spoiler you clicked keeps a dotted underline, so it stays clear which numbers were hidden.
+   One shown because you scored the show (D5) looks as MyAnimeList drew it. */
+[data-msh-shown]:not([data-msh-h]) {
+  text-decoration: underline dotted !important;
+  text-underline-offset: 0.2em;
 }
 
 /* The score box's "N users", which MAL draws as ::after. */

@@ -8,14 +8,16 @@
   const UNIT = 'data-msh-unit';
   const HIDDEN = 'data-msh-h';
   const ANCHOR = 'data-msh-anchor';
-  const PH = 'data-msh-ph';
+  const SHOWN = 'data-msh-shown'; // a spoiler a click uncovered
+  const TIPPED = 'data-msh-tip'; // the title is ours, so it goes when the score is shown
   const AFTER = 'data-msh-ha';
   const AFTER_UNIT = 'data-msh-ha-unit';
   const KEY = 'data-msh-key';
   const BLOCK = 'data-msh-block';
   const READY = 'data-msh-ready';
 
-  const PLACEHOLDER = { score: '?.??', rank: '#?', popularity: '#?', members: '?', favorites: '?', review: '?' };
+  // A hidden score is a spoiler bar drawn by hider.css; this says what a click does.
+  const TIP = 'Spoiler: click to show';
   const BLOCK_LABEL = { distribution: 'Show the score distribution' };
 
   MSH.kindHidden = (kind, s) => {
@@ -67,7 +69,7 @@
       const keyed = found.key?.getAttribute(KEY);
       let unit = keyed ? units.get(keyed) : null;
       if (!unit) {
-        if (!fresh.some((p) => !after(p))) return; // nothing yet to hold the placeholder
+        if (!fresh.some((p) => !after(p))) return; // nothing yet to draw the bar on
         unit = {
           id: String(++seq),
           kind: found.kind,
@@ -103,7 +105,6 @@
         } else if (unit.mode === 'inline' && !unit.anchor) {
           unit.anchor = el;
           el.setAttribute(ANCHOR, '');
-          el.setAttribute(PH, PLACEHOLDER[unit.kind] || '?');
         }
       }
     }
@@ -112,7 +113,8 @@
     // element back (a re-sort, a popup shown again) the next scan treats it as new.
     function forget(id, u) {
       units.delete(id);
-      for (const el of u.els) for (const a of [UNIT, HIDDEN, ANCHOR, PH]) el.removeAttribute(a);
+      if (u.anchor) tip(u.anchor, false);
+      for (const el of u.els) for (const a of [UNIT, HIDDEN, ANCHOR, SHOWN]) el.removeAttribute(a);
       for (const el of u.afters) for (const a of [AFTER_UNIT, AFTER]) el.removeAttribute(a);
       u.key?.removeAttribute(KEY);
       u.block?.remove();
@@ -130,10 +132,22 @@
       if (on !== el.hasAttribute(attr)) on ? el.setAttribute(attr, '') : el.removeAttribute(attr);
     };
 
+    // The tooltip, only where MyAnimeList set no title of its own.
+    function tip(el, on) {
+      if (on && !el.hasAttribute('title')) {
+        el.setAttribute('title', TIP);
+        el.setAttribute(TIPPED, '');
+      } else if (!on && el.hasAttribute(TIPPED)) {
+        el.removeAttribute('title');
+        el.removeAttribute(TIPPED);
+      }
+    }
+
     function apply() {
       for (const u of units.values()) {
         const h = hides(u);
         for (const el of u.els) flag(el, HIDDEN, h);
+        if (u.anchor) tip(u.anchor, h);
         for (const el of u.afters) flag(el, AFTER, h);
         if (u.block && u.block.hidden === h) u.block.hidden = !h;
       }
@@ -165,11 +179,12 @@
     }
 
     function reveal(u) {
-      if (state.settings.revealScope === 'page') {
-        state.pageRevealed = true;
-        for (const x of units.values()) x.revealed = true;
-      } else {
-        u.revealed = true;
+      const targets = state.settings.revealScope === 'page' ? [...units.values()] : [u];
+      if (state.settings.revealScope === 'page') state.pageRevealed = true;
+      for (const x of targets) {
+        // What a click uncovered keeps a mark (hider.css); what was never hidden gets none.
+        if (hides(x)) x.anchor?.setAttribute(SHOWN, '');
+        x.revealed = true;
       }
       if (state.settings.autoReveal === 'remembered' && u.showId && !state.remembered.has(u.showId)) {
         state.remembered.add(u.showId);

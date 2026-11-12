@@ -3,13 +3,13 @@
 //
 // A rule's find(doc) returns units: { kind, pieces, key?, showId?, mode? }
 //   kind     score | rank | popularity | members | favorites | distribution | review
-//   pieces   nodes to hide; the first element or text node holds the placeholder. A text node is
+//   pieces   nodes to hide; the first element or text node holds the spoiler bar. A text node is
 //            wrapped in a span of ours. { afterOf: node } hides only that element's ::after. (Not
 //            `pseudo`: browsers give every element a pseudo() method, so it can't mark ours.)
 //   key      an element standing for the unit, so pieces that arrive later join it
 //   showId   'anime:5114', or a function returning it (called once, when the unit is made),
 //            for showing the score of a show you have scored
-//   mode     'block' hides the pieces entirely behind a button, instead of a placeholder in place
+//   mode     'block' hides the pieces entirely behind a button, instead of a spoiler bar in place
 (function (g) {
   'use strict';
   const MSH = g.MSH || (g.MSH = {});
