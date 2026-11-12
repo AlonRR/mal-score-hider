@@ -60,6 +60,7 @@ visible (D5), so those rows are counted apart.
 | Seasonal | 374 of 374 | none |
 | Studio (`/anime/producer/4`) | 344 of 344 | none |
 | Genre, tile view | 200 of 200 | none |
+| Genre, list view (switched and back, A16) | 100 rows, no Score or Members value visible | none |
 | Anime search | 50 of 50 | none |
 | Search, all categories | 40 of 40 | none |
 | Home page | 30 of 30 | none |
@@ -72,11 +73,11 @@ table.
 Numbers the check flags that are not a rating of the show, left visible: news articles' view
 counts, the studio's own favourites count, the genre's title count, percentages in synopsis text,
 an HTML entity (`&#039;`) in a synopsis, a score typed into a review's text (D7), and the "N Users"
-on each recommendation, which counts the people who recommended that pairing.
+on each recommendation, which counts the people who recommended that pairing: it says two shows
+are alike, not how good either is, so it stays (D14 (a), 12 Nov 2026).
 
-Not run live: the genre page's list view (switching it changes the owner's saved view; covered by
-the tests), the settings page and the first paint at `document_start` (only the owner's own
-browser shows those).
+Not run live: the settings page and the first paint at `document_start`, which only the owner's
+own browser shows (T15).
 
 The first live run, of 0.1.0, hid nothing: every scan threw. Chrome and Edge now give every
 element a `pseudo()` method, and the add-on had used `pseudo` to mark its own pieces. jsdom has
