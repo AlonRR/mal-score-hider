@@ -15,6 +15,14 @@ export function page(body, { url = 'https://myanimelist.net/anime/5114/Example' 
     `<!doctype html><html><head><style>${css}</style></head><body>${body}</body></html>`,
     { url, runScripts: 'outside-only', pretendToBeVisual: true },
   );
+  // Chrome and Edge give every element a pseudo() method (the CSS pseudo-element API); jsdom does
+  // not. Version 0.1.0 read `piece.pseudo` as its own marker, and every scan threw in Edge while
+  // these tests passed (12 Nov 2026). Give the test pages the browser's shape.
+  if (!('pseudo' in dom.window.Element.prototype)) {
+    dom.window.Element.prototype.pseudo = function pseudo() {
+      return null;
+    };
+  }
   for (const f of contentScripts()) dom.window.eval(readExt(f));
   // Mutation check: MSH_DROP_RULE=<name> runs the suite without one rule, which some test must catch.
   const drop = process.env.MSH_DROP_RULE;

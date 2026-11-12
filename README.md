@@ -58,6 +58,8 @@ was not raised.
 
 ## Versions
 
+- **0.2.1**: fixes 0.1.0 and 0.2.0 hiding nothing in current Chrome and Edge, whose elements
+  now carry a `pseudo()` method that the add-on mistook for its own marker.
 - **0.2.0**: the version is shown on the settings page and marked on each MyAnimeList page.
 - **0.1.0**: the first build, the Favorites count included.
 

@@ -39,6 +39,7 @@
   MSH.start = (doc, store) => {
     const units = new Map();
     let seq = 0;
+    let warned = false;
     const state = { settings: CLOSED, remembered: new Set(), rated: new Set(), pageRevealed: false };
 
     const owner = (n) => (n.nodeType === 1 ? n : n.parentElement);
@@ -57,13 +58,16 @@
       return span;
     }
 
+    // A piece standing for an element's ::after, not a node of its own (rules.js).
+    const after = (p) => (p.nodeType === undefined && p.afterOf?.nodeType === 1 ? p.afterOf : null);
+
     function add(found) {
-      const fresh = found.pieces.filter((p) => p && (p.pseudo ? !p.node.hasAttribute(AFTER_UNIT) : !claimed(p)));
+      const fresh = found.pieces.filter((p) => p && (after(p) ? !after(p).hasAttribute(AFTER_UNIT) : !claimed(p)));
       if (!fresh.length) return;
       const keyed = found.key?.getAttribute(KEY);
       let unit = keyed ? units.get(keyed) : null;
       if (!unit) {
-        if (!fresh.some((p) => !p.pseudo)) return; // nothing yet to hold the placeholder
+        if (!fresh.some((p) => !after(p))) return; // nothing yet to hold the placeholder
         unit = {
           id: String(++seq),
           kind: found.kind,
@@ -80,9 +84,10 @@
         found.key?.setAttribute(KEY, unit.id);
       }
       for (const p of fresh) {
-        if (p.pseudo) {
-          p.node.setAttribute(AFTER_UNIT, unit.id);
-          unit.afters.push(p.node);
+        const box = after(p);
+        if (box) {
+          box.setAttribute(AFTER_UNIT, unit.id);
+          unit.afters.push(box);
           continue;
         }
         const el = p.nodeType === 3 ? wrap(p) : p;
@@ -142,7 +147,16 @@
         } catch {
           continue; // one rule broken by a markup change must not stop the others
         }
-        for (const f of found) add(f);
+        for (const f of found) {
+          try {
+            add(f);
+          } catch (e) {
+            // One unit that can't be hidden must not leave the rest of the page shown. Said once,
+            // so the console shows it without filling up.
+            if (!warned) console.warn('[MAL score hider] a score could not be hidden:', e);
+            warned = true;
+          }
+        }
       }
       for (const [id, u] of units) if (!u.els.some((el) => el.isConnected)) forget(id, u);
       state.rated = MSH.ratedShows(doc);
