@@ -5,6 +5,6 @@ projects:
   - name:     MAL score hider
     kind:     build
     state:    active
-    next:     "live check on each page type in Edge, version 0.2.0 loaded (T11 done 12 Nov 2026)"
+    next:     "owner presses Reload on edge://extensions for 0.2.1 (T13, 12 Nov 2026); then the live check on each page type in Edge"
     trackers: [README.md, docs/brief.md]
     review:   2026-11-12
