@@ -42,3 +42,42 @@ The owner's own score on an entry page is a `select#myinfo_score`, not `.score-l
   known negatives.
 - A visible-text check must also read `::before` / `::after` content, or the score box's user count
   passes unseen.
+
+## Live check, version 0.2.1 in Edge (12 Nov 2026)
+
+`tools/visible-scores.js` run on each page type with the add-on loaded, signed in. "Hidden" counts
+placeholders still hidden out of those made. A show the owner has scored keeps its community score
+visible (D5), so those rows are counted apart.
+
+| Page | Hidden | Shown, and why |
+|---|---|---|
+| Top anime | 78 of 100 | the 11 scored shows' score and members (D5); every row matched, 0 mismatches |
+| Top manga | 100 of 100 | none; the Your Score column (50 cells) stays visible |
+| Anime entry, show not scored | 9 of 12 | the 3 review ratings (D7) |
+| Anime entry, Stats tab | 5 of 5 | Summary Stats counts (D10 (a)); the distribution is behind its button |
+| Manga entry | 9 of 12 | the 3 review ratings (D7); Favorites hidden (D9) |
+| Hover popup, shown twice | all 4 lines both times | none |
+| Seasonal | 374 of 374 | none |
+| Studio (`/anime/producer/4`) | 344 of 344 | none |
+| Genre, tile view | 200 of 200 | none |
+| Anime search | 50 of 50 | none |
+| Search, all categories | 40 of 40 | none |
+| Home page | 30 of 30 | none |
+
+A real mouse click on one placeholder showed that one alone: on top anime (78 to 77 hidden), on
+the search table (50 to 49), and on the entry page's score box, whose "N users" line came back
+with it while Ranked, Popularity and Members stayed hidden. The distribution button showed the
+table.
+
+Numbers the check flags that are not a rating of the show, left visible: news articles' view
+counts, the studio's own favourites count, the genre's title count, percentages in synopsis text,
+an HTML entity (`&#039;`) in a synopsis, a score typed into a review's text (D7), and the "N Users"
+on each recommendation, which counts the people who recommended that pairing.
+
+Not run live: the genre page's list view (switching it changes the owner's saved view; covered by
+the tests), the settings page and the first paint at `document_start` (only the owner's own
+browser shows those).
+
+The first live run, of 0.1.0, hid nothing: every scan threw. Chrome and Edge now give every
+element a `pseudo()` method, and the add-on had used `pseudo` to mark its own pieces. jsdom has
+no such method, so every test passed. Fixed in 0.2.1, and the test pages now carry the method.

@@ -16,7 +16,7 @@
   ];
   const KINDS = {
     score: /(?<![\d.])\d{1,2}\.\d{2}(?![\d.])/,
-    rank: /#\d+/,
+    rank: /(?<!&)#\d+/, // not an HTML entity such as &#039; left in a synopsis
     scoredBy: /scored by|\d\s*users/i,
     count: /\b\d{1,3}(?:,\d{3})+\b|\b\d+(?:\.\d)?[KM]\b|\(\d+ votes\)|\d+(?:\.\d)?%/,
   };
