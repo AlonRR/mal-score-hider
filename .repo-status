@@ -1,6 +1,6 @@
 # The publish decision, where tooling can read it.
 # Convention: alon/repo-secret-scan templates/publish-status.example
 
-publish: ready
-reason:  a browser add-on that hides scores on a public site; history scanned clean, MIT (D21, D22, 13 Nov 2026)
+publish: public
+reason:  a browser add-on that hides scores on a public site; history scanned clean, MIT; on GitHub as AlonRR/mal-score-hider (D21, T28, 13 Nov 2026)
 review:  2026-11-13

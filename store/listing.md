@@ -61,4 +61,13 @@ Collects no data: tick none of the data types. Tick each certification the form 
 
 ## Privacy policy
 
-`PRIVACY.md` in this repository; its public address depends on where the repository is published.
+https://github.com/AlonRR/mal-score-hider/blob/main/PRIVACY.md
+
+## Website
+
+https://github.com/AlonRR/mal-score-hider (Edge's optional Website field; issues there are the
+support contact).
+
+## Publisher
+
+AlonRR (Q27, 13 Nov 2026), on the owner's personal Microsoft account (D26).

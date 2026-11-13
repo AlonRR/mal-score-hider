@@ -9,6 +9,6 @@ Score Hider for MyAnimeList collects no personal information and no usage data.
   the extension removes them; the settings page can also forget the remembered shows.
 - It has no analytics, no advertising and no accounts.
 
-Questions about this policy can be raised where the extension's listing gives a contact.
+Questions about this policy: open an issue at https://github.com/AlonRR/mal-score-hider.
 
 Last updated: 13 November 2026.
