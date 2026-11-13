@@ -16,7 +16,8 @@
 - It goes to both the Edge Add-ons and the Chrome Web Store (D18 (13 Nov 2026)), as "Score Hider
   for MyAnimeList" (D19 (13 Nov 2026)): named for the site it works on, never as the site itself.
   `store/listing.md` is the store text for both, so it names no browser (Edge developer policy
-  1.1.2). Registering, paying and submitting are the owner's steps.
+  1.1.2). Registering, paying and submitting are the owner's steps. The Chrome Web Store is on
+  hold: its $5 fee is not to be spent unless the owner publishes more add-ons (13 Nov 2026).
 - Screenshots for a listing are taken signed out (`tools/store-shots.mjs`), never from the owner's
   browser, so no account name gets into one.
 - Prior art without a licence (the Greasy Fork script "Hide Entry Score") may be read for ideas, never copied.

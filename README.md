@@ -80,4 +80,8 @@ was not raised.
 - **0.2.0**: the version is shown on the settings page and marked on each MyAnimeList page.
 - **0.1.0**: the first build, the Favorites count included.
 
+## Licence
+
+MIT: see `LICENSE`.
+
 _Parts of this repository were drafted with the help of an LLM agent; reviewed and verified locally._
