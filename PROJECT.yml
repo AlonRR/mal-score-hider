@@ -4,7 +4,7 @@ schema: 1
 projects:
   - name:     MAL score hider
     kind:     build
-    state:    done
-    next:     "none: the owner uses 0.3.1 in Edge and says it works and looks fine (T15, 13 Nov 2026)"
-    trackers: [README.md, docs/brief.md]
+    state:    active
+    next:     "store kit built (0.4.0, store/listing.md); owner registers developer accounts and decides on GitHub, then submits"
+    trackers: [README.md, docs/brief.md, store/listing.md]
     review:   2026-11-13

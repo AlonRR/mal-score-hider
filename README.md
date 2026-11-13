@@ -1,4 +1,4 @@
-# mal-score-hider
+# Score Hider for MyAnimeList
 
 A Chrome and Edge extension that hides MyAnimeList's community scores, ranks and counts, so you can
 rate a show on its own merits before seeing what others thought. A hidden score is a spoiler bar,
@@ -55,12 +55,22 @@ pages in `test/fixtures.js`. Where each score sits on the real site is recorded 
 that looks like a score, rank or count. `tools/page-bundle.mjs` builds the content scripts into one
 script that can be tried in a page before the extension is installed.
 
+## Store
+
+`npm run pack` builds `dist/score-hider-<version>.zip`, the upload for both the Edge Add-ons and
+Chrome Web Store, after checking the version was raised. The listing's text, field by field, is
+`store/listing.md`; its images are in `store/` and the icons in `extension/icons/`. The privacy
+policy is `PRIVACY.md`. `node tools/store-images.mjs` redraws the icons, logo and promo tile, and
+`node tools/store-shots.mjs` retakes the screenshots with the add-on loaded in a headless Edge on a
+throwaway profile, signed out; both need Edge or Chrome installed.
+
 Every change under `extension/` raises `version` in `extension/manifest.json` and adds a line
 below. `npm run check-version` fails when `extension/` differs from `origin/main` and the version
 was not raised.
 
 ## Versions
 
+- **0.4.0**: renamed Score Hider for MyAnimeList, for the stores; has an icon.
 - **0.3.1**: the bar says "Spoiler"; inline bars are wide enough for the word in MAL's smallest
   text, and the bar is a lighter tint so the word reads.
 - **0.3.0**: hidden numbers are spoiler bars instead of `?.??` and `#?`, one width for every

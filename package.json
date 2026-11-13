@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test \"test/*.test.js\"",
-    "check-version": "node tools/check-version.mjs"
+    "check-version": "node tools/check-version.mjs",
+    "pack": "node tools/pack.mjs"
   },
   "devDependencies": {
     "jsdom": "30.1.3"

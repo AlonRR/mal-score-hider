@@ -167,7 +167,7 @@
           } catch (e) {
             // One unit that can't be hidden must not leave the rest of the page shown. Said once,
             // so the console shows it without filling up.
-            if (!warned) console.warn('[MAL score hider] a score could not be hidden:', e);
+            if (!warned) console.warn('[Score Hider for MyAnimeList] a score could not be hidden:', e);
             warned = true;
           }
         }
