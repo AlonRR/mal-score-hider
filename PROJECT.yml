@@ -4,7 +4,7 @@ schema: 1
 projects:
   - name:     MAL score hider
     kind:     build
-    state:    active
-    next:     "live check passed on 0.2.1 in Edge (docs/survey.md, 12 Nov 2026); owner to use it and say it works (T15)"
+    state:    done
+    next:     "none: the owner uses 0.3.1 in Edge and says it works and looks fine (T15, 13 Nov 2026)"
     trackers: [README.md, docs/brief.md]
-    review:   2026-11-12
+    review:   2026-11-13

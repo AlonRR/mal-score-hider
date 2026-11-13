@@ -1,6 +1,6 @@
 // A hidden score is drawn as a spoiler bar, the way chat apps hide spoilers (the owner, 12 Nov
-// 2026): a solid bar in the text's own colour, no text and no blur, a tooltip that says a click
-// shows it, and a dotted underline left after the reveal to mark what was a spoiler.
+// 2026): a bar tinted in the text's own colour with "Spoiler" written on it and no blur, a tooltip
+// that says a click shows it, and a dotted underline left after the reveal to mark what was a spoiler.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { page, start, click, q, qa, readExt } from './helpers.js';
